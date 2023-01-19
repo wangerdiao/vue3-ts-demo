@@ -17,7 +17,7 @@ export class GoodsList {
         introduce:'',
         page:1,
         total:0,
-        pageSize:10
+        pageSize:5
     }
     initGoodsData: GoodsInt[] = []
 }
