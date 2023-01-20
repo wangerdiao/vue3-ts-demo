@@ -26,7 +26,7 @@
         </div>
         <el-table :data="userListData.userList" border style="width: 100%">
             <el-table-column prop="id" label="ID" width="100" />
-            <el-table-column prop="nickName" label="网民" width="330" />
+            <el-table-column prop="nickName" label="姓名" width="330" />
             <el-table-column prop="userName" label="用户名" width="330" />
             <el-table-column prop="role" label="角色" width="580">
                 <template #default="scope">
@@ -128,12 +128,24 @@ const changeInfo = (row:InitUserList) => {  //点击编辑的回调
     id:row.id,
     nickName:row.userName,
     userName:row.userName,
-    role:row.role.map(item => item.role)
+    role:row.role.map((item:any) => item.role || item.roleId)
   }
   
 }
 const submitInfo = () => { //对话框信息更改的回调
-
+  console.log(userListData.active);
+  let obj: any = userListData.userList.find(value => value.id === userListData.active.id)
+  obj.nickName = userListData.active.nickName
+  obj.userName = userListData.active.userName
+  obj.role = userListData.roleList.filter(value => userListData.active.role.indexOf(value.roleId) !== -1)
+  console.log(obj);
+  
+  userListData.userList.forEach((item,i) => {
+    if(item.id === obj.id) {
+      userListData.userList[i] = obj
+    }
+  })
+  userListData.isShow= false
 }
 </script>
 
