@@ -6,6 +6,7 @@ const routes: Array<RouteRecordRaw> = [
     path: '/',
     name: 'home',
     component: HomeView,
+    redirect:'goods',
     children:[
       {
         path:'goods',
@@ -33,6 +34,15 @@ const routes: Array<RouteRecordRaw> = [
           title:'角色列表'
         },
         component: () => import(/* webpackChunkName: "login" */ '../views/RoleView.vue')
+      },
+      {
+        path:'authority',
+        name:'authority',
+        meta:{
+          isShow:false,
+          title:'权限列表'
+        },
+        component: () => import(/* webpackChunkName: "login" */ '../views/AuthorityView.vue')
       }
     ]
   },
@@ -50,5 +60,13 @@ const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes
 })
-
+router.beforeEach((to,from,next) => {
+   const token:string | null = localStorage.getItem('token')
+   if(!token ) {
+    if(to.path=='/login') next()
+    else next('login')
+   }else {
+    next()
+   }
+})
 export default router

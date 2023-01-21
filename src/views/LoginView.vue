@@ -32,7 +32,7 @@
 </template>
 
 <script lang="ts" setup>
-import { defineComponent, reactive, toRefs,ref } from "vue";
+import {  reactive, toRefs,ref } from "vue";
 import type { FormInstance } from 'element-plus'
 import {LoginData} from '../type/login'
 import {login} from '@/api/index'
@@ -42,15 +42,16 @@ const ruleForm = reactive(new LoginData())
 const router = useRouter()
 const submitForm = (formEl: FormInstance | undefined) => {  //登录的回调
   if (!formEl) return
-  formEl.validate((valid) => {
+  formEl.validate(async (valid) => {
     if (valid) {
-      // login(ruleForm.data).then((res) => {
-      //   //保存token
-      //   localStorage.setItem('token',res.data.token)
-      //   //路由跳转
-      //   router.push('/')
-      // })
-      router.push('/')
+      let res = await login(ruleForm.data)
+      console.log(res.data);
+      if(res.data.code) {
+        //保存token
+        localStorage.setItem('token',res.data.token)
+        //路由跳转
+        router.push('/')
+      }
     } else {
       console.log('error submit!')
       return false

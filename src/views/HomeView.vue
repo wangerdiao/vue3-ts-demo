@@ -12,8 +12,8 @@
             <span class="title">后台管理系统</span></el-col
           >
           <el-col :span="4" class="loginOut"
-            ><div class="grid-content ep-bg-purple" />
-            退出登录</el-col
+            ><div class="grid-content ep-bg-purple" @click="loginOut">
+            退出登录</div></el-col
           >
         </el-row>
       </el-header>
@@ -23,7 +23,7 @@
             active-text-color="#ffd04b"
             background-color="#545c64"
             class="el-menu-vertical-demo"
-            default-active="2"
+            :default-active="route.path"
             text-color="#fff"
             router
           >
@@ -43,10 +43,14 @@
 </template>
 
 <script lang="ts" setup>
-import { useRouter } from "vue-router";
+import { useRouter,useRoute } from "vue-router";
 const router = useRouter()
+const route = useRoute()
 const list = router.getRoutes().filter( value => value.meta.isShow) //获取需要在侧边栏展示的路由数组
-
+const loginOut = () => {
+  localStorage.removeItem('token')
+  router.push('/login')
+}
 </script>
 <style lang="less" scoped>
 .el-header {

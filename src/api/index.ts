@@ -8,4 +8,7 @@ export const reqGetGoodsList = () => request({url:'/getGoodsList',method:'get'})
 export const reqGetUserList = () => request({url:'/getUserList',method:'get'})
 //获取角色列表的接口
 export const reqGetRoleList = () => request({url:'/getRoleList',method:'get'})
+//获取权限列表的接口
+export const reqGetAuthority = () => request({url:'/getAuthorityList',method:'get'})
+
 

@@ -41,9 +41,11 @@
 <script lang="ts" setup>
 import {onMounted, reactive} from 'vue'
 import {reqGetRoleList} from '@/api/index'
-import {InitData} from '@/type/role'
+import {InitData,InitRoleList} from '@/type/role'
 import { ElMessage, ElMessageBox } from 'element-plus'
+import { useRouter } from 'vue-router'
 const roleListData = reactive(new InitData())
+const router = useRouter()
 const getRoleList = async () => { //获取用户列表的回调
     let res = await reqGetRoleList()
     roleListData.list =res.data
@@ -59,9 +61,14 @@ const submitRole = () => { //对话框确认提交的回调
   roleListData.isShow= false
 }
 
-const changeRole = (row) => { //修改权限按钮的回调
-  console.log(row);
-  
+const changeRole = (row:InitRoleList) => { //修改权限按钮的回
+  router.push({
+    path:'authority',
+    query:{
+      id:row.roleId,
+      authority:row.authority.join(',')
+    }
+  })
 }
 </script>
 
